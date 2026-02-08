@@ -3,3 +3,4 @@
 3. Create Table
 4. CRUD operation on table by different query
 5. Data types
+6. Constraints

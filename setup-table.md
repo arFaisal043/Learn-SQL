@@ -1,9 +1,9 @@
 -- Create a Table:
 CREATE TABLE students (
-     id INT,
-	 name char(50),
-	 age INT,
-	 grade char(1)
+    id SERIAL PRIMARY KEY,
+	name char(50),
+	age INT,
+	grade char(1)
 );
 
 -- Insert value on a Table:
