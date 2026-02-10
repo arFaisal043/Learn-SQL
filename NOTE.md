@@ -127,6 +127,82 @@ VALUES
 ('Dyson Vacuum', 'KITC005T', 699.99, 3, true, 'Kitchen');
 
 
--- See values:
 SELECT * FROM products;
-SELECT name, price FROM products WHERE is_available = true; 
+
+
+- Small task about Flipkart
+
+-- Create a Product table:
+CREATE TABLE products(
+   product_id SERIAL PRIMARY KEY,
+   name VARCHAR(100) NOT NULL,
+   sku_code CHAR(8) UNIQUE NOT NULL CHECK (CHAR_LENGTH(sku_code) = 8),
+   price NUMERIC(10, 2) DEFAULT 0 CHECK (price >= 0),
+   stock_quantity INT DEFAULT 0 CHECK (stock_quantity >= 0),
+   is_available BOOLEAN DEFAULT TRUE,
+   category TEXT NOT NULL,
+   added_on DATE DEFAULT CURRENT_DATE,
+   last_update TIMESTAMP DEFAULT NOW()
+);
+
+-- Insert values:
+INSERT INTO products (name, sku_code, price, stock_quantity, is_available, category)
+VALUES
+-- Electronics (SKU: ELEC-XXX)
+('iPhone 15 Pro', 'ELEC001A', 999.99, 45, true, 'Electronics'),
+('Samsung Galaxy', 'ELEC002B', 899.99, 32, true, 'Electronics'),
+('Sony Headphones', 'ELEC003C', 349.99, 78, true, 'Electronics'),
+('MacBook Air M3', 'ELEC004D', 1299.99, 15, true, 'Electronics'),
+('Apple Watch 9', 'ELEC005E', 429.99, 0, false, 'Electronics'),
+
+-- Clothing (SKU: CLTH-XXX)
+('Nike Air Max', 'CLTH001F', 129.99, 120, true, 'Clothing'),
+('Levi''s Jeans', 'CLTH002G', 89.99, 67, true, 'Clothing'),
+('Adidas T-shirt', 'CLTH003H', 24.99, 230, true, 'Clothing'),
+('North Face Jack', 'CLTH004I', 199.99, 25, true, 'Clothing'),
+('Converse Shoes', 'CLTH005J', 65.99, 0, false, 'Clothing'),
+
+-- Books (SKU: BOOK-XXX)
+('Atomic Habits', 'BOOK001K', 16.99, 89, true, 'Books'),
+('Midnight Library', 'BOOK002L', 14.99, 54, true, 'Books'),
+('Python Guide', 'BOOK003M', 39.99, 12, true, 'Books'),
+('Dune Novel', 'BOOK004N', 12.99, 0, false, 'Books'),
+('Harry Potter', 'BOOK005O', 89.99, 8, true, 'Books'),
+
+-- Kitchen (SKU: KITC-XXX)
+('Instant Pot', 'KITC001P', 89.99, 42, true, 'Kitchen'),
+('KitchenAid Mix', 'KITC002Q', 399.99, 7, true, 'Kitchen'),
+('YETI Bottle', 'KITC003R', 49.99, 96, true, 'Kitchen'),
+('Nespresso Mach', 'KITC004S', 179.99, 0, false, 'Kitchen'),
+('Dyson Vacuum', 'KITC005T', 699.99, 3, true, 'Kitchen');
+
+
+SELECT * FROM products;
+
+-- Q1. Show the name and price of all products.
+SELECT name, price FROM products
+
+-- Q2. Show all products where the category is 'Electronics'.
+SELECT * FROM products WHERE category = 'Electronics';
+
+-- Q3. Group products by category. Show each category once.
+SELECT category FROM products GROUP BY category;
+
+-- Q4. Show categories that have more than 4 product. (Use after GROUP BY)
+SELECT category, COUNT(*) FROM products GROUP BY category
+HAVING COUNT(*) > 4;
+
+-- Q5. Show all products sorted by price in ascending and descending order.
+SELECT * FROM products ORDER BY price;
+SELECT * FROM products ORDER BY price DESC;
+
+-- Q6. Show only the first 5 products from the table.
+SELECT * FROM products LIMIT 5;
+
+-- Q7. Show product name as "Item_Name" and price as "Item_Price".
+SELECT name AS Item_Name, price AS Item_Price FROM products;
+
+-- Q8. Show all the unique categories from the products table.
+SELECT DISTINCT category FROM products;
+
+
