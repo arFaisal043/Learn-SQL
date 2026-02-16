@@ -80,6 +80,7 @@ ____________________________ Create a Task to learn Create table, Data Type and 
 
 
 
+
 -- Small task about Flipkart
 
 -- Create a Product table:
@@ -206,3 +207,79 @@ SELECT name AS Item_Name, price AS Item_Price FROM products;
 SELECT DISTINCT category FROM products;
 
 
+
+
+- CLAUSES WITH OPERATORS:
+
+1. Comparison: (=, !=, <, >, <=, >=)
+SELECT name, price FROM products WHERE price != 999.99;
+
+
+2. Range using BETWEEN keywords:
+
+-- Products priced between $50 and $100
+SELECT name, price, category FROM products WHERE price BETWEEN 50 and 100;
+
+
+3. Set using IN and NOT IN keywords: Checks if a value matches ANY value in a list or not.
+
+IN Example:
+-- Products in specific categories
+SELECT name, category, price FROM products
+WHERE category IN ('Clothing', 'Books');
+
+NOT IN Example:
+SELECT name, category, price FROM products
+WHERE category NOT IN ('Clothing', 'Books');
+
+
+4. Pattern (LIKE)
+
+-- in sku_code find that are start with letter B
+SELECT sku_code FROM products WHERE sku_code LIKE 'B%';
+
+-- Products ending with 'er'
+SELECT name, category FROM products
+WHERE name LIKE '%er';
+- Returns: Mixer, Blender, Toaster
+
+-- Products containing 'Book' anywhere
+SELECT name, category
+FROM products
+WHERE name LIKE '%Book%';
+- Returns: Notebook, Textbook, Bookmark
+
+-- SKU codes with pattern: 2 letters, 4 numbers
+SELECT name, sku_code
+FROM products
+WHERE sku_code LIKE '__1234';
+
+
+5. Logical (AND, OR, NOT)
+
+- AND Operation:
+-- Electronics under $500 with stock available
+SELECT name, price, category FROM products WHERE category = 'Electronics' 
+AND price <= 500
+AND is_available = true;
+
+
+- OR Operation:
+-- Electronics under $500 or stock available
+SELECT name, price, category, is_available FROM products WHERE category = 'Electronics' 
+AND price <= 500
+OR is_available = true;
+
+
+- NOT Operation:
+-- Not electronics under $500 and not stock available
+SELECT name, price, category, is_available FROM products WHERE category != 'Electronics' 
+AND price <= 500
+AND NOT is_available = false;
+
+
+
+
+
+
+____________________________ AGGREGATION FUNCTIONS ________________________________
