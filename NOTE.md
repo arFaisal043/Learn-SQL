@@ -283,3 +283,22 @@ AND NOT is_available = false;
 
 
 ____________________________ AGGREGATION FUNCTIONS ________________________________
+
+
+- COUNT, SUM, AVG, MIN, MAX 
+
+
+-- Total number of products:
+SELECT COUNT(*) FROM products;
+
+-- Total price in a category(electronics):
+SELECT SUM(price) FROM products WHERE category = 'Electronics';
+
+-- Average price of accessories:
+SELECT ROUND(AVG(price), 2) FROM products WHERE category = 'Electronics';
+
+-- Cheapest product:
+SELECT MIN(price) FROM products WHERE category = 'Electronics';
+
+-- Most expensive product
+SELECT MAX(price) FROM products WHERE category = 'Electronics';
