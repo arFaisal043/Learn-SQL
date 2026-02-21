@@ -365,3 +365,30 @@ SELECT CONCAT_WS(' : ', name, category) FROM products; // iPhone 15 Pro : Electr
 - trim() - This function will remove all the spaces from the string
 
 - replace() - This function will replace any thing you want.
+
+
+
+
+
+
+
+________________________________ ALTER _______________________________
+
+- ALTER is a SQL command used to modify the structure of existing database objects (tables, columns, constraints, etc.) without deleting and recreating them.
+
+
+-- Add a new column
+ALTER TABLE products 
+ADD COLUMN brand VARCHAR(50) DEFAULT 0;
+
+-- Remove a column
+ALTER TABLE products 
+DROP COLUMN brand;
+
+-- Change data type
+ALTER TABLE products 
+ALTER COLUMN price TYPE DECIMAL(12,2);
+
+-- Rename a column
+ALTER TABLE products 
+RENAME COLUMN last_update TO updated_at;
