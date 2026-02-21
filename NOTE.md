@@ -302,3 +302,35 @@ SELECT MIN(price) FROM products WHERE category = 'Electronics';
 
 -- Most expensive product
 SELECT MAX(price) FROM products WHERE category = 'Electronics';
+
+
+
+
+
+
+
+______________________________ TEST _________________________________
+
+-- Q1. Display the name and price of the cheapest product in the entire table.
+SELECT name, price FROM products 
+WHERE price = (SELECT MIN(price) FROM products);
+
+-- Q2.Find the average price of products that belong to the 'Electronics & Clothing' or 'Books' category.
+SELECT ROUND(AVG(price), 2) FROM products
+WHERE category IN ('Electronics', 'Clothing')
+OR category = 'Books';
+
+-- Q3. Show product names and stock quantity where the product is available, stock is more than 50, and price is not equal to $999.99.
+SELECT name, stock_quantity FROM products
+WHERE is_available = true
+AND stock_quantity > 50
+AND price != 999.99;
+
+-- Q4. Find the most expensive product in each category (name and price).
+SELECT category, MAX(price) FROM products 
+GROUP BY category;
+
+-- Q5. Show all unique categories in uppercase, sorted in descending order.
+SELECT UPPER(category) FROM products 
+GROUP BY category 
+ORDER BY category DESC
