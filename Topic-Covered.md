@@ -7,3 +7,4 @@
 7. CLAUSES (select, from, where, group by, having, order by, limit, as, distinct)
 8. CLAUSES with operator
 9. AGGREGATION FUNCTIONS
+10. STRING FUNCTIONS

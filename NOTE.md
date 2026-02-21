@@ -180,6 +180,8 @@ VALUES
 
 SELECT * FROM products;
 
+_________________________ TEST 1 ________________________________
+
 -- Q1. Show the name and price of all products.
 SELECT name, price FROM products
 
@@ -309,7 +311,7 @@ SELECT MAX(price) FROM products WHERE category = 'Electronics';
 
 
 
-______________________________ TEST _________________________________
+______________________________ TEST 2 _________________________________
 
 -- Q1. Display the name and price of the cheapest product in the entire table.
 SELECT name, price FROM products 
@@ -334,3 +336,32 @@ GROUP BY category;
 SELECT UPPER(category) FROM products 
 GROUP BY category 
 ORDER BY category DESC
+
+
+
+
+
+
+______________________________ STRING FUNCTIONS _______________________________
+
+
+SELECT LENGTH(name) FROM products
+SELECT UPPER(name) FROM products
+SELECT LOWER(name) FROM products
+
+- Sub string:
+SELECT name, SUBSTR(category, 1, 5) FROM products; // output: Elect
+
+- Sub string from left:
+SELECT LEFT(category, 5) FROM products // Elect
+
+- Sub string from right:
+SELECT RIGHT(category, 5) FROM products // onics
+
+- String Concat:
+SELECT CONCAT(name, ' ', category) FROM products; // iPhone 15 Pro Electronics
+SELECT CONCAT_WS(' : ', name, category) FROM products; // iPhone 15 Pro : Electronics
+
+- trim() - This function will remove all the spaces from the string
+
+- replace() - This function will replace any thing you want.
