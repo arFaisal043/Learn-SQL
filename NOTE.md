@@ -392,3 +392,72 @@ ALTER COLUMN price TYPE DECIMAL(12,2);
 -- Rename a column
 ALTER TABLE products 
 RENAME COLUMN last_update TO updated_at;
+
+-- Remove a Default Value
+ALTER TABLE products 
+ALTER COLUMN price DROP DEFAULT;
+
+
+
+
+
+
+____________________________________ CASE ____________________________________
+
+- CASE is a conditional expression in SQL that works like an if-else or switch statement. It lets you
+return different values based on different conditions — all within a single query.
+
+
+# - Syntax of CASE in SQL: when = if and else if
+
+SELECT column1, column2,
+CASE
+  WHEN condition1 THEN result1
+  WHEN condition2 THEN result2
+...
+  ELSE default_result
+END AS new_column_name
+FROM table_name;
+
+
+# -- practice ques 1: Best way to learn the case is using a simple example where you will add a custom column in which you will have price_tag. If the price is above 1000 you will say it is expensive.
+If the price is between 500 and 1000 you will say it is moderate. and If the price is below 500 it is cheap.
+
+SELECT name, price,
+CASE WHEN (price > 1000) THEN 'Expensive'
+     WHEN price BETWEEN 500 AND 1000 THEN 'Moderate'
+	 ELSE 'Cheap'
+END AS price_tag FROM products;
+
+## this col is not add on real datasets. this is a just snapshot
+
+
+# => Add same on real data.
+
+-- STEP 1: create a new col
+ALTER TABLE products
+ADD COLUMN price_tag TEXT;
+
+-- STEP 2: update col val according to the conditions
+UPDATE products
+SET price_tag =
+CASE WHEN (price > 1000) THEN 'Expensive'
+     WHEN price BETWEEN 500 AND 1000 THEN 'Moderate'
+	 ELSE 'Cheap'
+END;
+
+
+
+
+# -- Practice ques 2: Ok now lets do one important question inside is available column you have boolean true and false show case a new column to with in_stock and out of stock.
+
+-- STEP 1: CREATE A COL
+ALTER TABLE products
+ADD COLUMN is_available_product TEXT;
+
+-- STEP 2: UPDATE COL VALUE
+UPDATE products
+SET is_available_product =
+CASE WHEN is_available = TRUE THEN 'in_stock'
+     WHEN is_available = FALSE THEN 'out_of_stock'
+END;
