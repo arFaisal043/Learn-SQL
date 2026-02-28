@@ -461,3 +461,84 @@ SET is_available_product =
 CASE WHEN is_available = TRUE THEN 'in_stock'
      WHEN is_available = FALSE THEN 'out_of_stock'
 END;
+
+
+
+
+
+________________________________ RELATIONSHIP AND JOIN _______________________________
+
+## => ONE TO ONE RELATION:
+
+-- Students table (parent)
+CREATE TABLE students (
+    student_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- Student_profiles table (child) - One-to-One relationship
+CREATE TABLE student_profiles (
+    student_id INT PRIMARY KEY,
+    address TEXT,
+    age INT,
+    phone VARCHAR(15)
+);
+
+
+-- insert into students table
+INSERT INTO students (name) 
+VALUES
+('Emma Watson'),
+('James Smith'),
+('Maria Garcia'),
+('David Brown'),
+('Sophia Lee'),
+('Michael Chen'),
+('Olivia Johnson'),
+('William Taylor'),
+('Isabella Martinez'),
+('Alexander Wilson');
+
+
+-- insert into student_profiles table
+INSERT INTO student_profiles (student_id, address, age, phone) 
+VALUES
+(1, '123 Main St, New York, NY 10001', 20, '555-0101'),
+(2, '456 Oak Ave, Los Angeles, CA 90001', 22, '555-0102'),
+(3, '789 Pine Rd, Chicago, IL 60601', 19, '555-0103'),
+(4, '321 Elm St, Houston, TX 77001', 21, '555-0104'),
+(5, '654 Maple Dr, Phoenix, AZ 85001', 20, '555-0105'),
+(6, '987 Cedar Ln, Philadelphia, PA 19101', 23, '555-0106'),
+(7, '147 Birch Blvd, San Antonio, TX 78201', 22, '555-0107'),
+(8, '258 Willow Way, San Diego, CA 92101', 20, '555-0108'),
+(9, '369 Spruce Ct, Dallas, TX 75201', 21, '555-0109'),
+(10, '741 Ash Ave, San Jose, CA 95101', 19, '555-0110');
+
+
+SELECT * FROM students;
+SELECT * FROM student_profiles;
+
+
+-- This code adds a Foreign Key constraint to an existing table, which creates a rule linking student_profiles to students
+ALTER TABLE student_profiles
+ADD CONSTRAINT fk_student_id
+FOREIGN KEY (student_id)
+REFERENCES students(student_id);
+
+
+-- Join Query to see all data together
+SELECT
+	s.student_id,
+	s.name,
+	sp.address,
+	sp.age,
+	sp.phone
+FROM students s
+JOIN student_profiles sp
+ON s.student_id = sp.student_id;
+
+
+## => ONE TO MANY RELATION:
+
+
+## => MANY TO MANY RELATION:
