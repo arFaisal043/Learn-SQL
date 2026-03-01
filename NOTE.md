@@ -468,6 +468,34 @@ END;
 
 ________________________________ RELATIONSHIP AND JOIN _______________________________
 
+
+# what is the purpose of primary and foreign key:
+
+🔑 Primary Key
+Purpose: Uniquely identifies each row in a table
+Example: Like your passport number - uniquely identifies YOU
+
+🔗 Foreign Key
+Purpose: Links tables together (creates relationship)
+Example: Like your passport number on a flight booking - connects YOU to your flight
+
+
+
+# Join:
+
+📝 Quick Reference 
+
+JOIN Type	        Returns	                      Use When
+INNER	          Only matches	                Need only related data
+LEFT	          All left + matches	          Need ALL from main table
+RIGHT	          All right + matches	          Need ALL from secondary table
+FULL	          All from both	                Need complete picture
+CROSS	          Every combination	          Need all possibilities
+SELF	          Table with itself	          Need hierarchical data
+
+
+
+
 ## => ONE TO ONE RELATION:
 
 -- Students table (parent)
@@ -528,17 +556,84 @@ REFERENCES students(student_id);
 
 -- Join Query to see all data together
 SELECT
-	s.student_id,
+/*	s.student_id,
 	s.name,
 	sp.address,
 	sp.age,
-	sp.phone
+	sp.phone */  --> this is projection
 FROM students s
 JOIN student_profiles sp
 ON s.student_id = sp.student_id;
 
 
 ## => ONE TO MANY RELATION:
+
+DATASET:
+-- Students table (ONE)
+CREATE TABLE students (
+    student_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+
+-- Orders table (MANY) - Each student can have multiple orders
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    student_id INT NOT NULL,
+    item VARCHAR(50),
+    amount DECIMAL(5,2),
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+);
+
+
+INSERT INTO students (name) 
+VALUES
+('Emma'),
+('James'),
+('Maria'),
+('David'),
+('Sophia');
+
+
+
+INSERT INTO orders (student_id, item, amount) 
+VALUES
+-- Emma (student_id=1) has 3 orders
+(1, 'Laptop', 999.99),
+(1, 'Mouse', 29.99),
+(1, 'Keyboard', 79.99),
+
+-- James (student_id=2) has 2 orders
+(2, 'Books', 49.99),
+(2, 'Notebook', 4.99),
+
+-- Maria (student_id=3) has 3 orders
+(3, 'Phone', 599.99),
+(3, 'Case', 19.99),
+(3, 'Charger', 29.99),
+
+-- David (student_id=4) has 2 orders
+(4, 'Shoes', 89.99),
+(4, 'Socks', 9.99),
+
+-- Sophia (student_id=5) has 2 orders
+(5, 'Bag', 49.99),
+(5, 'Pen', 2.99);
+
+
+SELECT * FROM students;
+SELECT * FROM orders;
+
+
+
+# -- Inner Join:
+SELECT * FROM students s INNER JOIN orders o
+ON s.student_id = o.student_id;
+
+# -- LEFT Join:
+SELECT * FROM students s LEFT JOIN orders o
+ON s.student_id = o.student_id;
+
 
 
 ## => MANY TO MANY RELATION:
