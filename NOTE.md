@@ -637,3 +637,181 @@ ON s.student_id = o.student_id;
 
 
 ## => MANY TO MANY RELATION:
+
+📋 What is Many-to-Many?
+A many-to-many relationship occurs when multiple records in Table A relate to multiple records in Table B.
+
+Examples:
+Students can take many Courses / Courses can have many Students
+Authors can write many Books / Books can have many Authors
+
+🔧 How It Works: The Junction Table
+Many-to-many relationships require a third table (junction/linking table) to connect them.
+
+
+Schemas:
+
+-- Table 1: Students (ONE side of many-to-many)
+CREATE TABLE students (
+    student_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- Table 2: Courses (OTHER side of many-to-many)
+CREATE TABLE courses (
+    course_id SERIAL PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    credits INT
+);
+
+-- Table 3: Junction/Enrollment table (connects both)
+CREATE TABLE enrollments (
+    enrollment_id SERIAL PRIMARY KEY,  -- Optional
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    enrollment_date DATE,
+    grade CHAR(2),
+    -- Composite foreign keys
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id),
+    -- Prevent duplicate enrollments
+    UNIQUE(student_id, course_id)
+);
+
+
+
+Data:
+
+-- Students
+INSERT INTO students (name) VALUES
+('Emma'), ('James'), ('Maria'), ('David');
+
+-- Courses
+INSERT INTO courses (course_name, credits) VALUES
+('Math', 3), ('Physics', 4), ('Chemistry', 3), ('Biology', 3);
+
+-- Enrollments (junction table)
+INSERT INTO enrollments (student_id, course_id, enrollment_date, grade) VALUES
+-- Emma takes Math and Physics
+(1, 1, '2024-01-15', 'A'),
+(1, 2, '2024-01-15', 'B+'),
+-- James takes Math, Physics, and Chemistry
+(2, 1, '2024-01-15', 'B'),
+(2, 2, '2024-01-15', 'A-'),
+(2, 3, '2024-01-15', 'C+'),
+-- Maria takes Chemistry and Biology
+(3, 3, '2024-01-15', 'A'),
+(3, 4, '2024-01-15', 'B-'),
+-- David only takes Math
+(4, 1, '2024-01-15', 'A');
+
+
+
+🔍 How the Data Looks
+
+# Students Table:
+student_id	 name
+1	          Emma
+2	          James
+3	          Maria
+4	          David
+
+
+# Courses Table:
+course_id	  course_name	      credits
+1	            Math	               3
+2	            Physics	            4
+3	            Chemistry	         3
+4	            Biology	            3
+
+
+# Enrollments Table (Junction):
+enrollment_id	  student_id	  course_id	  grade
+1	                  1	           1	       A
+2	                  1	           2	       B+
+3	                  2	           1	       B
+4	                  2	           2	       A-
+5	                  2	           3	       C+
+6	                  3	           3	       A
+7	                  3	           4	       B-
+8	                  4	           1	       A
+
+
+
+1. Get all students with their courses:
+
+SELECT 
+    s.name AS student,
+    c.course_name,
+    e.grade
+FROM students s
+JOIN enrollments e ON s.student_id = e.student_id
+JOIN courses c ON e.course_id = c.course_id
+ORDER BY s.name, c.course_name;
+
+
+- Result:
+
+student	      course_name	        grade
+Emma	            Math	             A
+David	            Math	             A
+Emma	            Physics	          B+
+James	            Chemistry	       C+
+James	            Math	             B
+James	            Physics	          A-
+Maria	            Biology	          B-
+Maria	            Chemistry	       A
+
+
+
+
+
+
+
+______________________________ Views ___________________________
+
+
+# WHAT IS A VIEW IN SQL?
+
+A view is a virtual table based on a SQL query.
+It does not store actual data, but shows results when
+accessed — just like a saved query
+
+structure:
+
+CREATE VIEW view_name AS
+SELECT column1, column2
+FROM table_name
+WHERE condition;
+
+
+
+
+
+
+
+
+
+______________________________ PROCEDURES ___________________________
+
+
+# A procedure is a block of SQL code that performs a series of operations — like inserting, updating, deleting, or selecting data — and is stored in the database.
+
+“ Think of it like a function in programming — once
+defined, you can call it again and again without rewriting
+the logic.
+
+
+- structure:
+
+// create a like function
+CREATE PROCEDURE procedure_name(param1 datatype, param2 datatype)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+-- Your SQL logic here
+END;
+$$;
+
+// call the function
+CALL procedure_name(value1, value2);
